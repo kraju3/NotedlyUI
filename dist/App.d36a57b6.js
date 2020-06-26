@@ -32256,25 +32256,7 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"pages/home.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Home = function Home() {
-  return _react.default.createElement("div", null, _react.default.createElement("h1", null, "Welcome User"));
-};
-
-var _default = Home;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"pages/mynotes.js":[function(require,module,exports) {
+},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"pages/mynotes.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32330,11 +32312,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _reactRouterDom = require("react-router-dom");
-
-var _home = _interopRequireDefault(require("./home"));
 
 var _mynotes = _interopRequireDefault(require("./mynotes"));
 
@@ -32344,9 +32324,25 @@ var _logo = _interopRequireDefault(require("../img/logo.svg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function WebApp() {
   return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", null, _react.default.createElement("nav", {
-    className: "navbar navbar-expand-lg navbar-light bg-light"
+    className: "navbar navbar-expand-lg navbar-dark bg-dark"
   }, _react.default.createElement("a", {
     className: "navbar-brand"
   }, _react.default.createElement("img", {
@@ -32374,13 +32370,6 @@ function WebApp() {
   }, _react.default.createElement("li", {
     className: "nav-item"
   }, _react.default.createElement(_reactRouterDom.Link, {
-    to: "/"
-  }, _react.default.createElement("a", {
-    className: "nav-link",
-    href: "/"
-  }, "Home"))), _react.default.createElement("li", {
-    className: "nav-item"
-  }, _react.default.createElement(_reactRouterDom.Link, {
     to: "/mynotes"
   }, _react.default.createElement("a", {
     className: "nav-link",
@@ -32392,16 +32381,204 @@ function WebApp() {
   }, _react.default.createElement("a", {
     className: "nav-link",
     href: "/favorites"
-  }, "Favorites")))))), _react.default.createElement(_reactRouterDom.Switch, null, _react.default.createElement(_reactRouterDom.Route, {
+  }, "Favorites"))), _react.default.createElement("li", {
+    className: "nav-item"
+  }, _react.default.createElement(_reactRouterDom.Link, {
+    to: "/signup"
+  }, _react.default.createElement("a", {
+    className: "nav-link",
+    href: "/signup"
+  }, "Register"))), _react.default.createElement("li", {
+    className: "nav-item"
+  }, _react.default.createElement(_reactRouterDom.Link, {
+    to: "/signin"
+  }, _react.default.createElement("a", {
+    className: "nav-link",
+    href: "/signin"
+  }, "Sign In")))))), _react.default.createElement(_reactRouterDom.Switch, null, _react.default.createElement(_reactRouterDom.Route, {
     path: "/mynotes"
   }, _react.default.createElement(_mynotes.default, null)), _react.default.createElement(_reactRouterDom.Route, {
     path: "/favorites"
-  }, _react.default.createElement(_favorites.default, null)))));
+  }, _react.default.createElement(_favorites.default, null)), _react.default.createElement(_reactRouterDom.Route, {
+    path: "/signup"
+  }, _react.default.createElement(SignUpForm, null)), _react.default.createElement(_reactRouterDom.Route, {
+    path: "/signin"
+  }, _react.default.createElement(SignInForm, null)))));
+}
+
+function SignInForm(props) {
+  var _useState = (0, _react.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      username = _useState2[0],
+      setUserName = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      email = _useState4[0],
+      setEmail = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      password = _useState6[0],
+      setPassword = _useState6[1];
+
+  var submitForm = function submitForm(e) {
+    e.preventDefault();
+    props.signInForm({
+      username: username,
+      email: email,
+      password: password
+    });
+  };
+
+  return _react.default.createElement("div", null, _react.default.createElement("form", null, _react.default.createElement("div", {
+    className: "form-group"
+  }, _react.default.createElement("label", {
+    "for": "inputAddress"
+  }, "Email"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "email",
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-row"
+  }, _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    "for": "inputEmail4"
+  }, "Username"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "username",
+    onChange: function onChange(e) {
+      return setUserName(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    "for": "inputPassword4"
+  }, "Password"), _react.default.createElement("input", {
+    type: "password",
+    className: "form-control",
+    id: "password",
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    }
+  }))), _react.default.createElement("button", {
+    type: "submit",
+    className: "btn btn-primary",
+    onClick: submitForm
+  }, "Sign In")));
+}
+
+function SignUpForm(props) {
+  var _useState7 = (0, _react.useState)(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      firstname = _useState8[0],
+      setFirstName = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(''),
+      _useState10 = _slicedToArray(_useState9, 2),
+      lastname = _useState10[0],
+      setLastName = _useState10[1];
+
+  var _useState11 = (0, _react.useState)(''),
+      _useState12 = _slicedToArray(_useState11, 2),
+      username = _useState12[0],
+      setUserName = _useState12[1];
+
+  var _useState13 = (0, _react.useState)(''),
+      _useState14 = _slicedToArray(_useState13, 2),
+      email = _useState14[0],
+      setEmail = _useState14[1];
+
+  var _useState15 = (0, _react.useState)(''),
+      _useState16 = _slicedToArray(_useState15, 2),
+      password = _useState16[0],
+      setPassword = _useState16[1];
+
+  var submitForm = function submitForm(e) {
+    e.preventDefault();
+    props.submitForm({
+      firstname: firstname,
+      lastname: lastname,
+      username: username,
+      email: email,
+      password: password
+    });
+  };
+
+  return _react.default.createElement("div", null, _react.default.createElement("form", null, _react.default.createElement("div", {
+    className: "form-row"
+  }, _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    "for": "inputEmail4"
+  }, "First Name"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "firstname",
+    onChange: function onChange(e) {
+      return setFirstName(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    "for": "inputPassword4"
+  }, "Last Name"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "lastname",
+    onChange: function onChange(e) {
+      return setLastName(e.target.value);
+    }
+  }))), _react.default.createElement("div", {
+    className: "form-group"
+  }, _react.default.createElement("label", {
+    "for": "inputAddress"
+  }, "Email"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "email",
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-row"
+  }, _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    "for": "inputEmail4"
+  }, "Username"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "username",
+    onChange: function onChange(e) {
+      return setUserName(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    "for": "inputPassword4"
+  }, "Password"), _react.default.createElement("input", {
+    type: "password",
+    className: "form-control",
+    id: "password",
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    }
+  }))), _react.default.createElement("button", {
+    type: "submit",
+    className: "btn btn-primary",
+    onClick: submitForm
+  }, "Sign Up")));
 }
 
 var _default = WebApp;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./home":"pages/home.js","./mynotes":"pages/mynotes.js","./favorites":"pages/favorites.js","../img/logo.svg":"img/logo.svg"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./mynotes":"pages/mynotes.js","./favorites":"pages/favorites.js","../img/logo.svg":"img/logo.svg"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -32445,7 +32622,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53707" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51480" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
