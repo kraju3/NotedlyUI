@@ -6,6 +6,7 @@ import {
     Link
 } from "react-router-dom";
 
+import Home from './home'
 import Notes from './mynotes';
 import Favorites from './favorites'
 import logo from '../img/logo.svg'
@@ -14,41 +15,32 @@ function WebApp(){
     return (
         <Router>
             <div>
-                <nav className = "navbar navbar-expand-lg navbar-dark bg-dark" >
-                <a className="navbar-brand">
-                    <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="" loading="lazy"/>
-                Notedly
-                </a>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className = "navbar-nav">
-                        <li className ="nav-item">
-                            <Link to="/mynotes">
-                            <a className="nav-link" href="/mynotes">Notes</a>
-                            </Link>
-                        </li>
-                        <li className ="nav-item">
-                            <Link to="/favorites">
-                            <a className="nav-link" href="/favorites">Favorites</a>
-                            </Link>
-                        </li>
-                        <li className ="nav-item">
-                            <Link to="/signup">
-                            <a className="nav-link" href="/signup">Register</a>
-                            </Link>
-                        </li>
-                        <li className ="nav-item">
-                            <Link to="/signin">
-                            <a className="nav-link" href="/signin">Sign In</a>
-                            </Link>
-                        </li>
-                    </ul>
+                <div className="ui top fixed menu">
+                    <div className="item">
+                        <img src={logo}/>
+                    </div>
+                    
+                    <Link to="/home">
+                    <a className="item" href="/home">Home</a>
+                    </Link>
+                    <Link to="/mynotes">
+                    <a className="item">Notes</a>
+                    </Link>
+                    <Link to="/favorites">
+                    <a className="item">Favorites</a>
+                    </Link>
+                    <Link to="/signup">
+                    <a className="item">Register</a>
+                    </Link>
+                    <Link to="/signin">
+                    <a className="item">Login</a>
+                    </Link>
                 </div>
-                </nav>
 
                 <Switch>
+                    <Route path="/home">
+                        <Home/>
+                    </Route>
                     <Route path="/mynotes">
                         <Notes/>
                     </Route>
@@ -151,3 +143,6 @@ function SignUpForm (props){
 }
 
 export default WebApp;
+
+
+ 

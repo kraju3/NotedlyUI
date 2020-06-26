@@ -17,6 +17,7 @@
     "@apollo/client": "3.0.0-rc.6",
     "@types/react": "^16.9.17",
     "apollo-link-context": "1.0.20",
+    "bootstrap": "^4.5.0",
     "date-fns": "2.14.0",
     "graphql": "15.1.0",
     "normalize.css": "8.0.1",

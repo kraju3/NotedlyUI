@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import WebApp from './pages/index'
-
+import{ApolloClient,ApolloProvider,InMemoryCache}from '@apollo/client'
+import Client from './client'
 function App (){
 
     return (
-        <WebApp/>
+        <ApolloProvider client = {Client}>
+            <WebApp/>
+        </ApolloProvider>
     )
 
 }
