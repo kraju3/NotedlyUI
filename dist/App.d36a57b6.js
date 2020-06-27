@@ -59290,13 +59290,23 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _NoteFeed = _interopRequireDefault(require("../components/NoteFeed"));
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\nquery noteFeed($cursor:String){\n  noteFeed(cursor: $cursor){\n      cursor\n      hasNextPage\n      notes{\n        id\n        createdAt\n        content\n        favoriteCount\n        author{\n          username\n          id\n          avatar\n        }\n      }\n    }\n  }\n  "]);
@@ -59330,45 +59340,32 @@ var Home = function Home() {
       },
       updateQuery: function updateQuery(previousResult, _ref) {
         var fetchMoreResult = _ref.fetchMoreResult;
-
-        if (data.noteFeed.hasNextPage) {
-          var prevEntry = previousResult.noteFeed;
-          console.log(prevEntry);
-          var newNotes = fetchMoreResult.noteFeed;
-          console.log(newNotes);
-          var newCusor = fetchMoreResult.noteFeed.cursor;
-          var nextPage = fetchMoreResult.noteFeed.hasNextPage;
-          return {
-            cursor: newCusor,
-            hasNextPage: nextPage,
-            entry: {
-              data: _extends({}, newNotes, prevEntry)
-            },
-            __typename: prevEntry.__typename
-          };
-        }
+        var prevEntry = previousResult.noteFeed;
+        console.log(prevEntry);
+        var newNotes = fetchMoreResult.noteFeed;
+        console.log(newNotes);
+        var newCursor = fetchMoreResult.noteFeed.cursor;
+        var hasNextPage = fetchMoreResult.noteFeed.hasNextPage;
+        return {
+          noteFeed: {
+            cursor: newCursor,
+            hasNextPage: hasNextPage,
+            notes: [].concat(_toConsumableArray(prevEntry.notes), _toConsumableArray(newNotes.notes)),
+            __typename: 'noteFeed'
+          }
+        };
       }
     });
   };
 
   return _react.default.createElement("div", null, _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_NoteFeed.default, {
     notes: data.noteFeed.notes
-  }), _react.default.createElement("nav", {
-    "aria-label": "Page navigation example"
-  }, _react.default.createElement("ul", {
-    className: "pagination"
-  }, _react.default.createElement("li", {
-    className: "page-item"
-  }, _react.default.createElement("a", {
-    className: "page-link",
-    href: "#"
-  }, "Previous")), _react.default.createElement("li", {
-    className: "page-item"
-  }, _react.default.createElement("a", {
-    className: "page-link",
-    href: "#",
+  }), data.noteFeed.hasNextPage && _react.default.createElement("button", {
+    className: "fluid ui button ui labeled icon button",
     onClick: onLoadMore
-  }, "Next")))));
+  }, "See More", _react.default.createElement("i", {
+    className: "down chevron icon"
+  })));
 };
 
 var _default = Home;
@@ -59451,7 +59448,6 @@ var NOTE_QUERY = (0, _client.gql)(_templateObject());
 
 var NotePage = function NotePage(props) {
   var id = props.match.params.id;
-  console.log(id);
 
   var _useQuery = (0, _client.useQuery)(NOTE_QUERY, {
     variables: {
@@ -59464,7 +59460,6 @@ var NotePage = function NotePage(props) {
 
   if (error) return _react.default.createElement("p", null, "Error! Note not found");
   if (loading) return _react.default.createElement("p", null, "Loading..");
-  console.log(data.note);
   return _react.default.createElement(_Note.default, {
     note: data.note
   });
@@ -59785,7 +59780,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49587" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54734" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

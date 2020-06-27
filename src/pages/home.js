@@ -34,26 +34,22 @@ query noteFeed($cursor:String){
          query:GET_NOTES,
          variables:{cursor:data.noteFeed.cursor},
          updateQuery:(previousResult,{fetchMoreResult})=>{
-           if(data.noteFeed.hasNextPage){
             const prevEntry = previousResult.noteFeed
-            console.log(prevEntry)
             const newNotes = fetchMoreResult.noteFeed
-            console.log(newNotes)
-            const newCusor = fetchMoreResult.noteFeed.cursor;
-            const nextPage = fetchMoreResult.noteFeed.hasNextPage;
+            const newCursor = fetchMoreResult.noteFeed.cursor;
+            const hasNextPage = fetchMoreResult.noteFeed.hasNextPage
            return {
-             cursor:newCusor,
-             hasNextPage:nextPage,
-             entry:{
-               data:{...newNotes,...prevEntry}
-             },
-             __typename:prevEntry.__typename
-
+             noteFeed:{
+              cursor:newCursor,
+              hasNextPage,
+              notes:[
+                ...prevEntry.notes,
+                ...newNotes.notes
+              ],
+              __typename:'noteFeed'
+             }
+            };
            }
-           }
-           
-
-         }
        })
      }
      return(
@@ -61,17 +57,17 @@ query noteFeed($cursor:String){
             <br></br>
             <br></br>
             <NoteFeed notes={data.noteFeed.notes}/>
-            <nav aria-label="Page navigation example">
-              <ul className="pagination">
-                <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                <li className="page-item"><a className="page-link" href="#" onClick={onLoadMore}>Next</a></li>
-              </ul>
-            </nav>
+            {data.noteFeed.hasNextPage && (
+              <button className="fluid ui button ui labeled icon button" onClick ={onLoadMore}>
+              See More
+              <i className="down chevron icon"/>
+          </button>
+            )}
+            
          </div>
      )
  } 
 
 export default Home
-
 
 
