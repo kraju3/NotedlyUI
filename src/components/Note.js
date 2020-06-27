@@ -1,44 +1,62 @@
 import React from 'react'
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
+import {format} from 'date-fns';
+import styled from 'styled-components'
 
-class Note extends React.Component{
-  
-    constructor(props){
-        super(props)
-        this.state = {
-            favoriteCount:this.props.favoriteCount
-        }
-    }
+const NoteWrapper = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  margin-bottom: 2em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid #f5f4f0;`
 
-    render(){
+const NoteFeed = ({notes}) =>{
+  return(
+    <div>
+      {notes.map(note=>{
         return(
-        <div className="event">
+      <NoteWrapper key = {note.id}>
+        <Note
+          key ={note.id}
+         note ={note}
+         />
+      </NoteWrapper>
+        )
+      })}
+    </div>
+  )
+}
+
+const Note = ({note})=>{
+  return(
+    <div className="event">
             <div className="label">
-              <img src={this.props.author.avatar}/>
+              <img src={note.author.avatar}/>
             </div>
             <div className="content">
               <div className="summary">
                 <a className="user">
-                  {this.props.author.username}
+                  {note.author.username}
                 </a>
                 <div className="date">
-                  {this.props.createdAt}
+                  {note.createdAt}
                 </div>
               </div>
-              <ReactMarkdown source={this.props.content} />
+              <ReactMarkdown source={note.content} />
               <div className="meta">
                 <a className="like">
-                  <i className="like icon"></i> {this.props.favoriteCount} Likes
+                  <i className="like icon"></i> {note.favoriteCount} Likes
                 </a>
               </div>
             </div>{' '}
             <br></br>
         </div>
-        
-        )
-    }
+  )
+
 }
+  
+   
 
 
-export default Note
+export default NoteFeed
 

@@ -1,6 +1,6 @@
 import {useQuery,gql} from '@apollo/client';
 import React, { useState } from 'react'
-import Note from '../components/Note'
+import NoteFeed from '../components/Note';
 
 const GET_NOTES = gql`
 query noteFeed($cursor:String){
@@ -24,29 +24,49 @@ query noteFeed($cursor:String){
 
  const Home = ()=>{
      const {data,loading,error,fetchMore} = useQuery(GET_NOTES);
-
+  
      if (loading) return <h2>Loading...</h2>;
 
      if (error) return <h2>Error!</h2>
 
+     const onLoadMore = ()=>{
+       fetchMore({
+         query:GET_NOTES,
+         variables:{cursor:data.noteFeed.cursor},
+         updateQuery:(previousResult,{fetchMoreResult})=>{
+           if(data.noteFeed.hasNextPage){
+            const prevEntry = previousResult.noteFeed
+            console.log(prevEntry)
+            const newNotes = fetchMoreResult.noteFeed
+            console.log(newNotes)
+            const newCusor = fetchMoreResult.noteFeed.cursor;
+            const nextPage = fetchMoreResult.noteFeed.hasNextPage;
+           return {
+             cursor:newCusor,
+             hasNextPage:nextPage,
+             entry:{
+               data:{...newNotes,...prevEntry}
+             },
+             __typename:prevEntry.__typename
 
-     const ListofNotes = data.noteFeed.notes.map(note=>{
-         return (
-             <Note
-             key={note.id}
-             id = {note.id}
-             createdAt = {note.createdAt}
-             content = {note.content}
-             favoriteCount = {note.favoriteCount}
-             author ={note.author}
-             />
-         )
-     })
+           }
+           }
+           
+
+         }
+       })
+     }
      return(
          <div>
-             <br></br>
-             <br></br>
-            {ListofNotes}
+            <br></br>
+            <br></br>
+            <NoteFeed notes={data.noteFeed.notes}/>
+            <nav aria-label="Page navigation example">
+              <ul className="pagination">
+                <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                <li className="page-item"><a className="page-link" href="#" onClick={onLoadMore}>Next</a></li>
+              </ul>
+            </nav>
          </div>
      )
  } 
