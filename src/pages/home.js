@@ -1,6 +1,6 @@
 import {useQuery,gql} from '@apollo/client';
 import React, { useState } from 'react'
-import NoteFeed from '../components/Note';
+import NoteFeed from '../components/NoteFeed';
 
 const GET_NOTES = gql`
 query noteFeed($cursor:String){
