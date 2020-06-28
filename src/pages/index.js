@@ -6,7 +6,7 @@ import {
     Link
 } from "react-router-dom";
 
-
+import Carousel from './Carousel';
 import Home from './home'
 import Notes from './mynotes';
 import Favorites from './favorites'
@@ -59,7 +59,7 @@ function WebApp(){
                 </div>
 
                 <Switch>
-            
+                    <Route exact path="/" component={Carousel}/>
                     <Route path="/home" component={Home}/>
               
                     <Route path="/mynotes"component={Notes}/>

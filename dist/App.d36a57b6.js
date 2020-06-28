@@ -32256,7 +32256,88 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"../node_modules/zen-observable/lib/Observable.js":[function(require,module,exports) {
+},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"img/notesimage2.jpg":[function(require,module,exports) {
+module.exports = "/notesimage2.7c8a4658.jpg";
+},{}],"img/notesimage3.jpg":[function(require,module,exports) {
+module.exports = "/notesimage3.157aaef0.jpg";
+},{}],"img/logo.svg":[function(require,module,exports) {
+module.exports = "/logo.f1d8a4c6.svg";
+},{}],"pages/Carousel.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _notesimage = _interopRequireDefault(require("../img/notesimage2.jpg"));
+
+var _notesimage2 = _interopRequireDefault(require("../img/notesimage3.jpg"));
+
+var _logo = _interopRequireDefault(require("../img/logo.svg"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Carousel() {
+  return _react.default.createElement("div", null, _react.default.createElement("h2", {
+    className: "ui center aligned icon header"
+  }, _react.default.createElement("img", {
+    src: _logo.default
+  }), "Notely"), _react.default.createElement("div", {
+    id: "carouselExampleIndicators",
+    className: "carousel slide",
+    "data-ride": "carousel"
+  }, _react.default.createElement("ol", {
+    className: "carousel-indicators"
+  }, _react.default.createElement("li", {
+    "data-target": "#carouselExampleIndicators",
+    "data-slide-to": "0",
+    className: "active"
+  }), _react.default.createElement("li", {
+    "data-target": "#carouselExampleIndicators",
+    "data-slide-to": "1"
+  })), _react.default.createElement("div", {
+    className: "carousel-inner"
+  }, _react.default.createElement("div", {
+    className: "carousel-item active"
+  }, _react.default.createElement("img", {
+    src: _notesimage.default,
+    className: "d-block w-100",
+    alt: "..."
+  })), _react.default.createElement("div", {
+    className: "carousel-item"
+  }, _react.default.createElement("img", {
+    src: _notesimage2.default,
+    className: "d-block w-100",
+    alt: "..."
+  }))), _react.default.createElement("a", {
+    className: "carousel-control-prev",
+    href: "#carouselExampleIndicators",
+    role: "button",
+    "data-slide": "prev"
+  }, _react.default.createElement("span", {
+    className: "carousel-control-prev-icon",
+    "aria-hidden": "true"
+  }), _react.default.createElement("span", {
+    className: "sr-only"
+  }, "Previous")), _react.default.createElement("a", {
+    className: "carousel-control-next",
+    href: "#carouselExampleIndicators",
+    role: "button",
+    "data-slide": "next"
+  }, _react.default.createElement("span", {
+    className: "carousel-control-next-icon",
+    "aria-hidden": "true"
+  }), _react.default.createElement("span", {
+    className: "sr-only"
+  }, "Next"))));
+}
+
+var _default = Carousel;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","../img/notesimage2.jpg":"img/notesimage2.jpg","../img/notesimage3.jpg":"img/notesimage3.jpg","../img/logo.svg":"img/logo.svg"}],"../node_modules/zen-observable/lib/Observable.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59814,9 +59895,7 @@ function SignInForm(props) {
 
 var _default = SignInForm;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","@apollo/client":"../node_modules/@apollo/client/index.js"}],"img/logo.svg":[function(require,module,exports) {
-module.exports = "/logo.f1d8a4c6.svg";
-},{}],"pages/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","@apollo/client":"../node_modules/@apollo/client/index.js"}],"pages/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59827,6 +59906,8 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 var _reactRouterDom = require("react-router-dom");
+
+var _Carousel = _interopRequireDefault(require("./Carousel"));
 
 var _home = _interopRequireDefault(require("./home"));
 
@@ -59879,6 +59960,10 @@ function WebApp() {
   }, _react.default.createElement(_reactRouterDom.Link, {
     to: "/signup"
   }, "Register")))), _react.default.createElement(_reactRouterDom.Switch, null, _react.default.createElement(_reactRouterDom.Route, {
+    exact: true,
+    path: "/",
+    component: _Carousel.default
+  }), _react.default.createElement(_reactRouterDom.Route, {
     path: "/home",
     component: _home.default
   }), _react.default.createElement(_reactRouterDom.Route, {
@@ -59901,7 +59986,7 @@ function WebApp() {
 
 var _default = WebApp;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./home":"pages/home.js","./mynotes":"pages/mynotes.js","./favorites":"pages/favorites.js","./notes":"pages/notes.js","./signup":"pages/signup.js","./signin":"pages/signin.js","../img/logo.svg":"img/logo.svg"}],"client.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./Carousel":"pages/Carousel.js","./home":"pages/home.js","./mynotes":"pages/mynotes.js","./favorites":"pages/favorites.js","./notes":"pages/notes.js","./signup":"pages/signup.js","./signin":"pages/signin.js","../img/logo.svg":"img/logo.svg"}],"client.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59920,11 +60005,7 @@ var client = new _client.ApolloClient({
 });
 var _default = client;
 exports.default = _default;
-},{"@apollo/client":"../node_modules/@apollo/client/index.js"}],"img/notesimage2.jpg":[function(require,module,exports) {
-module.exports = "/notesimage2.7c8a4658.jpg";
-},{}],"img/notesimage3.jpg":[function(require,module,exports) {
-module.exports = "/notesimage3.157aaef0.jpg";
-},{}],"App.js":[function(require,module,exports) {
+},{"@apollo/client":"../node_modules/@apollo/client/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -59937,77 +60018,16 @@ var _client = require("@apollo/client");
 
 var _client2 = _interopRequireDefault(require("./client"));
 
-var _notesimage = _interopRequireDefault(require("./img/notesimage2.jpg"));
-
-var _notesimage2 = _interopRequireDefault(require("./img/notesimage3.jpg"));
-
-var _logo = _interopRequireDefault(require("./img/logo.svg"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App() {
   return _react.default.createElement(_client.ApolloProvider, {
     client: _client2.default
-  }, _react.default.createElement(_index.default, null), _react.default.createElement(Carousel, null));
-}
-
-function Carousel() {
-  return _react.default.createElement("div", null, _react.default.createElement("h2", {
-    className: "ui center aligned icon header"
-  }, _react.default.createElement("img", {
-    src: _logo.default
-  }), "Notely"), _react.default.createElement("div", {
-    id: "carouselExampleIndicators",
-    className: "carousel slide",
-    "data-ride": "carousel"
-  }, _react.default.createElement("ol", {
-    className: "carousel-indicators"
-  }, _react.default.createElement("li", {
-    "data-target": "#carouselExampleIndicators",
-    "data-slide-to": "0",
-    className: "active"
-  }), _react.default.createElement("li", {
-    "data-target": "#carouselExampleIndicators",
-    "data-slide-to": "1"
-  })), _react.default.createElement("div", {
-    className: "carousel-inner"
-  }, _react.default.createElement("div", {
-    className: "carousel-item active"
-  }, _react.default.createElement("img", {
-    src: _notesimage.default,
-    className: "d-block w-100",
-    alt: "..."
-  })), _react.default.createElement("div", {
-    className: "carousel-item"
-  }, _react.default.createElement("img", {
-    src: _notesimage2.default,
-    className: "d-block w-100",
-    alt: "..."
-  }))), _react.default.createElement("a", {
-    className: "carousel-control-prev",
-    href: "#carouselExampleIndicators",
-    role: "button",
-    "data-slide": "prev"
-  }, _react.default.createElement("span", {
-    className: "carousel-control-prev-icon",
-    "aria-hidden": "true"
-  }), _react.default.createElement("span", {
-    className: "sr-only"
-  }, "Previous")), _react.default.createElement("a", {
-    className: "carousel-control-next",
-    href: "#carouselExampleIndicators",
-    role: "button",
-    "data-slide": "next"
-  }, _react.default.createElement("span", {
-    className: "carousel-control-next-icon",
-    "aria-hidden": "true"
-  }), _react.default.createElement("span", {
-    className: "sr-only"
-  }, "Next"))));
+  }, _react.default.createElement(_index.default, null));
 }
 
 _reactDom.default.render(_react.default.createElement(App, null), document.getElementById('root'));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./pages/index":"pages/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","./client":"client.js","./img/notesimage2.jpg":"img/notesimage2.jpg","./img/notesimage3.jpg":"img/notesimage3.jpg","./img/logo.svg":"img/logo.svg"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./pages/index":"pages/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","./client":"client.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -60035,7 +60055,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56870" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57242" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
