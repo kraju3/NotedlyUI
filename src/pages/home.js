@@ -25,7 +25,17 @@ query noteFeed($cursor:String){
  const Home = ()=>{
      const {data,loading,error,fetchMore} = useQuery(GET_NOTES);
   
-     if (loading) return <h2>Loading...</h2>;
+     if (loading) return(
+      <div className="ui icon message">
+      <i className="notched circle loading icon"></i>
+      <div className="content">
+        <div className="header">
+          Just one second
+        </div>
+        <p>We're fetching that content for you.</p>
+      </div>
+    </div>
+     )
 
      if (error) return <h2>Error!</h2>
 

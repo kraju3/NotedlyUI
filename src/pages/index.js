@@ -11,6 +11,9 @@ import Home from './home'
 import Notes from './mynotes';
 import Favorites from './favorites'
 import NotePage from './notes';
+import SignUpForm from './signup';
+import SignInForm from './signin';
+
 
 import logo from '../img/logo.svg'
 
@@ -23,6 +26,7 @@ function WebApp(){
             <div>
               <div className="ui secondary pointing menu">
                     <div className="item">
+
                       <img src={logo} href="#"/>
                     </div>
                     <div className = "item">
@@ -55,22 +59,19 @@ function WebApp(){
                 </div>
 
                 <Switch>
-                    <Route path="/home">
-                        <Home/>
-                    </Route>
-                    <Route path="/mynotes">
-                        <Notes/>
-                    </Route>
-                    <Route path="/favorites">
-                        <Favorites/>
-                    </Route>
+            
+                    <Route path="/home" component={Home}/>
+              
+                    <Route path="/mynotes"component={Notes}/>
+                     
+                    <Route path="/favorites" component ={Favorites}/>
+                     
                     <Route path ="/note/:id" component ={NotePage}/>
-                    <Route path="/signup">
-                        <SignUpForm/>
-                    </Route>
-                    <Route path="/signin">
-                        <SignInForm/>
-                    </Route>
+
+                    <Route path="/signup" component = {SignUpForm}/>
+
+                    <Route path="/signin" component={SignInForm}/>
+                    
                 </Switch>
             </div>
 
@@ -84,86 +85,7 @@ function WebApp(){
 
 
 
-function SignInForm(props){
-    const[username,setUserName]=useState('')
-    const[email,setEmail]=useState('')
-    const[password,setPassword]=useState('')
 
-    const submitForm = function(e){
-        e.preventDefault()
-        props.signInForm({username,email,password})
-    }
-
-    return(
-        <div>
-        <form>
-        <div className="form-group">
-        <label>Email</label>
-        <input type="text" className="form-control" id="email" onChange={e=>setEmail(e.target.value)}/>
-    </div>
-    <div className="form-row">
-      <div className="form-group col-md-6">
-        <label>Username</label>
-        <input type="text" className="form-control" id="username" onChange={e=>setUserName(e.target.value)}/>
-      </div>
-      <div className="form-group col-md-6">
-        <label>Password</label>
-        <input type="password" className="form-control" id="password" onChange={e=>setPassword(e.target.value)}/>
-      </div>
-    </div>
-    <button type="submit" className="btn btn-primary" onClick = {submitForm}>Sign In</button>
-  </form>
-  </div>
-    )
-}
-
-function SignUpForm (props){
-   
-        const [firstname,setFirstName] = useState('');
-        const [lastname,setLastName] = useState('');
-        const [username,setUserName] = useState('');
-        const [email,setEmail] = useState('');
-        const [password,setPassword]= useState('');
-
-        const submitForm = function(e){
-            e.preventDefault()
-            props.submitForm({firstname,lastname,username,email,password})
-        }
-
-        return(
-        <div>
-        <form>
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <label>First Name</label>
-                <input type="text" className="form-control" id="firstname" onChange={e=>setFirstName(e.target.value)}/>
-              </div>
-              <div className="form-group col-md-6">
-                <label>Last Name</label>
-                <input type="text" className="form-control" id="lastname" onChange={e=>setLastName(e.target.value)}/>
-              </div>
-            </div>
-            <div className="form-group">
-                <label>Email</label>
-                <input type="text" className="form-control" id="email" onChange={e=>setEmail(e.target.value)}/>
-            </div>
-            <div className="form-row">
-              <div className="form-group col-md-6">
-                <label>Username</label>
-                <input type="text" className="form-control" id="username" onChange={e=>setUserName(e.target.value)}/>
-              </div>
-              <div className="form-group col-md-6">
-                <label>Password</label>
-                <input type="password" className="form-control" id="password" onChange={e=>setPassword(e.target.value)}/>
-              </div>
-            </div>
-            <button type="submit" className="btn btn-primary" onClick = {submitForm}>Sign Up</button>
-          </form>
-          </div>
-        )
-
-
-}
 
 export default WebApp;
 

@@ -59329,7 +59329,15 @@ var Home = function Home() {
       error = _useQuery.error,
       fetchMore = _useQuery.fetchMore;
 
-  if (loading) return _react.default.createElement("h2", null, "Loading...");
+  if (loading) return _react.default.createElement("div", {
+    className: "ui icon message"
+  }, _react.default.createElement("i", {
+    className: "notched circle loading icon"
+  }), _react.default.createElement("div", {
+    className: "content"
+  }, _react.default.createElement("div", {
+    className: "header"
+  }, "Just one second"), _react.default.createElement("p", null, "We're fetching that content for you.")));
   if (error) return _react.default.createElement("h2", null, "Error!");
 
   var onLoadMore = function onLoadMore() {
@@ -59341,9 +59349,7 @@ var Home = function Home() {
       updateQuery: function updateQuery(previousResult, _ref) {
         var fetchMoreResult = _ref.fetchMoreResult;
         var prevEntry = previousResult.noteFeed;
-        console.log(prevEntry);
         var newNotes = fetchMoreResult.noteFeed;
-        console.log(newNotes);
         var newCursor = fetchMoreResult.noteFeed.cursor;
         var hasNextPage = fetchMoreResult.noteFeed.hasNextPage;
         return {
@@ -59467,7 +59473,348 @@ var NotePage = function NotePage(props) {
 
 var _default = NotePage;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","../components/Note":"components/Note.js"}],"img/logo.svg":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","../components/Note":"components/Note.js"}],"pages/signup.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+var _client = require("@apollo/client");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\nmutation signUp($firstname:String!,$lastname:String!,$email:String!,$username:String!,$password:String!){\n    signUp(firstname:$firstname,lastname:$lastname,email:$email,username:$username,password:$password) \n}\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Wrapper = _styledComponents.default.div.withConfig({
+  displayName: "signup__Wrapper",
+  componentId: "sc-15qotco-0"
+})(["border:1px solid #f5f4f0;max-width:500px;padding:1em;margin:0 auto;"]);
+
+var Form = _styledComponents.default.form.withConfig({
+  displayName: "signup__Form",
+  componentId: "sc-15qotco-1"
+})(["border:1px solid #f5f4f0;max-width:500px;padding:1em;margin:0 auto;"]);
+
+var SIGNUP_USER = (0, _client.gql)(_templateObject());
+
+function SignUpForm(props) {
+  var _useState = (0, _react.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      firstname = _useState2[0],
+      setFirstName = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      lastname = _useState4[0],
+      setLastName = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      username = _useState6[0],
+      setUserName = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      email = _useState8[0],
+      setEmail = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(''),
+      _useState10 = _slicedToArray(_useState9, 2),
+      password = _useState10[0],
+      setPassword = _useState10[1];
+
+  var _useMutation = (0, _client.useMutation)(SIGNUP_USER, {
+    onCompleted: function onCompleted(data) {
+      localStorage.setItem('token', data.signUp);
+      props.history.push('/home');
+    }
+  }),
+      _useMutation2 = _slicedToArray(_useMutation, 2),
+      signUp = _useMutation2[0],
+      _useMutation2$ = _useMutation2[1],
+      loading = _useMutation2$.loading,
+      error = _useMutation2$.error;
+
+  (0, _react.useEffect)(function () {
+    document.title = 'Sign Up - Notedly';
+  });
+
+  var submitForm = function submitForm(event) {
+    event.preventDefault();
+    signUp({
+      variables: {
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        username: username,
+        password: password
+      }
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+
+  return _react.default.createElement(Wrapper, null, error && _react.default.createElement("div", {
+    className: "ui negative message"
+  }, _react.default.createElement("i", {
+    className: "close icon"
+  }), _react.default.createElement("div", {
+    className: "header"
+  }, "We're sorry we can't create your account"), _react.default.createElement("p", null, "Username taken")), _react.default.createElement(Form, {
+    onSubmit: submitForm
+  }, _react.default.createElement("div", {
+    className: "form-row"
+  }, _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    htmlFor: "firstname"
+  }, "First Name"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "firstname",
+    name: "firstname",
+    onChange: function onChange(e) {
+      return setFirstName(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    htmlFor: "lastname"
+  }, "Last Name"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "lastname",
+    name: "lastname",
+    onChange: function onChange(e) {
+      return setLastName(e.target.value);
+    }
+  }))), _react.default.createElement("div", {
+    className: "form-group"
+  }, _react.default.createElement("label", {
+    htmlFor: "email"
+  }, "Email"), _react.default.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    id: "email",
+    name: "email",
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-row"
+  }, _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    htmlFor: "username"
+  }, "Username"), _react.default.createElement("input", {
+    required: true,
+    type: "text",
+    className: "form-control",
+    id: "username",
+    name: "username",
+    onChange: function onChange(e) {
+      return setUserName(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    htmlFor: "password"
+  }, "Password"), _react.default.createElement("input", {
+    required: true,
+    type: "password",
+    className: "form-control",
+    id: "password",
+    name: "password",
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    }
+  }))), _react.default.createElement("button", {
+    type: "submit",
+    className: "btn btn-primary"
+  }, "Sign Up")));
+}
+
+var _default = SignUpForm;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","@apollo/client":"../node_modules/@apollo/client/index.js"}],"pages/signin.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+var _client = require("@apollo/client");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\nmutation signIn($username:String!,$email:String,$password:String!){\n    signIn(username:$username,email:$email,password:$password) \n}\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Wrapper = _styledComponents.default.div.withConfig({
+  displayName: "signin__Wrapper",
+  componentId: "w0z7tw-0"
+})(["border:1px solid #f5f4f0;max-width:500px;padding:1em;margin:0 auto;"]);
+
+var Form = _styledComponents.default.form.withConfig({
+  displayName: "signin__Form",
+  componentId: "w0z7tw-1"
+})(["border:1px solid #f5f4f0;max-width:500px;padding:1em;margin:0 auto;"]);
+
+var SIGNIN_USER = (0, _client.gql)(_templateObject());
+
+function SignInForm(props) {
+  var _useState = (0, _react.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      username = _useState2[0],
+      setUserName = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      email = _useState4[0],
+      setEmail = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      password = _useState6[0],
+      setPassword = _useState6[1];
+
+  var _useMutation = (0, _client.useMutation)(SIGNIN_USER, {
+    onCompleted: function onCompleted(data) {
+      localStorage.setItem('token', data.signIn);
+      props.history.push('/home');
+    }
+  }),
+      _useMutation2 = _slicedToArray(_useMutation, 2),
+      signIn = _useMutation2[0],
+      _useMutation2$ = _useMutation2[1],
+      loading = _useMutation2$.loading,
+      error = _useMutation2$.error;
+
+  var submitForm = function submitForm(event) {
+    event.preventDefault();
+    signIn({
+      variables: {
+        username: username,
+        email: email,
+        password: password
+      }
+    }).catch(function (err) {
+      return console.log(err);
+    });
+  };
+
+  return _react.default.createElement(Wrapper, null, _react.default.createElement(Form, {
+    onSubmit: submitForm
+  }, _react.default.createElement("div", {
+    className: "form-group"
+  }, _react.default.createElement("label", {
+    htmlFor: "email"
+  }, "Email"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "email",
+    name: "email",
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-row"
+  }, _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    htmlFor: "username"
+  }, "Username"), _react.default.createElement("input", {
+    type: "text",
+    className: "form-control",
+    id: "username",
+    name: "username",
+    onChange: function onChange(e) {
+      return setUserName(e.target.value);
+    }
+  })), _react.default.createElement("div", {
+    className: "form-group col-md-6"
+  }, _react.default.createElement("label", {
+    htmlFor: "password"
+  }, "Password"), _react.default.createElement("input", {
+    type: "password",
+    className: "form-control",
+    id: "password",
+    name: "password",
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    }
+  }))), _react.default.createElement("button", {
+    type: "submit",
+    className: "btn btn-primary"
+  }, "Sign In")));
+}
+
+var _default = SignInForm;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","@apollo/client":"../node_modules/@apollo/client/index.js"}],"img/logo.svg":[function(require,module,exports) {
 module.exports = "/logo.f1d8a4c6.svg";
 },{}],"pages/index.js":[function(require,module,exports) {
 "use strict";
@@ -59489,6 +59836,10 @@ var _favorites = _interopRequireDefault(require("./favorites"));
 
 var _notes = _interopRequireDefault(require("./notes"));
 
+var _signup = _interopRequireDefault(require("./signup"));
+
+var _signin = _interopRequireDefault(require("./signin"));
+
 var _logo = _interopRequireDefault(require("../img/logo.svg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -59496,18 +59847,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function WebApp() {
   return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", null, _react.default.createElement("div", {
@@ -59540,178 +59879,29 @@ function WebApp() {
   }, _react.default.createElement(_reactRouterDom.Link, {
     to: "/signup"
   }, "Register")))), _react.default.createElement(_reactRouterDom.Switch, null, _react.default.createElement(_reactRouterDom.Route, {
-    path: "/home"
-  }, _react.default.createElement(_home.default, null)), _react.default.createElement(_reactRouterDom.Route, {
-    path: "/mynotes"
-  }, _react.default.createElement(_mynotes.default, null)), _react.default.createElement(_reactRouterDom.Route, {
-    path: "/favorites"
-  }, _react.default.createElement(_favorites.default, null)), _react.default.createElement(_reactRouterDom.Route, {
+    path: "/home",
+    component: _home.default
+  }), _react.default.createElement(_reactRouterDom.Route, {
+    path: "/mynotes",
+    component: _mynotes.default
+  }), _react.default.createElement(_reactRouterDom.Route, {
+    path: "/favorites",
+    component: _favorites.default
+  }), _react.default.createElement(_reactRouterDom.Route, {
     path: "/note/:id",
     component: _notes.default
   }), _react.default.createElement(_reactRouterDom.Route, {
-    path: "/signup"
-  }, _react.default.createElement(SignUpForm, null)), _react.default.createElement(_reactRouterDom.Route, {
-    path: "/signin"
-  }, _react.default.createElement(SignInForm, null)))));
-}
-
-function SignInForm(props) {
-  var _useState = (0, _react.useState)(''),
-      _useState2 = _slicedToArray(_useState, 2),
-      username = _useState2[0],
-      setUserName = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(''),
-      _useState4 = _slicedToArray(_useState3, 2),
-      email = _useState4[0],
-      setEmail = _useState4[1];
-
-  var _useState5 = (0, _react.useState)(''),
-      _useState6 = _slicedToArray(_useState5, 2),
-      password = _useState6[0],
-      setPassword = _useState6[1];
-
-  var submitForm = function submitForm(e) {
-    e.preventDefault();
-    props.signInForm({
-      username: username,
-      email: email,
-      password: password
-    });
-  };
-
-  return _react.default.createElement("div", null, _react.default.createElement("form", null, _react.default.createElement("div", {
-    className: "form-group"
-  }, _react.default.createElement("label", null, "Email"), _react.default.createElement("input", {
-    type: "text",
-    className: "form-control",
-    id: "email",
-    onChange: function onChange(e) {
-      return setEmail(e.target.value);
-    }
-  })), _react.default.createElement("div", {
-    className: "form-row"
-  }, _react.default.createElement("div", {
-    className: "form-group col-md-6"
-  }, _react.default.createElement("label", null, "Username"), _react.default.createElement("input", {
-    type: "text",
-    className: "form-control",
-    id: "username",
-    onChange: function onChange(e) {
-      return setUserName(e.target.value);
-    }
-  })), _react.default.createElement("div", {
-    className: "form-group col-md-6"
-  }, _react.default.createElement("label", null, "Password"), _react.default.createElement("input", {
-    type: "password",
-    className: "form-control",
-    id: "password",
-    onChange: function onChange(e) {
-      return setPassword(e.target.value);
-    }
-  }))), _react.default.createElement("button", {
-    type: "submit",
-    className: "btn btn-primary",
-    onClick: submitForm
-  }, "Sign In")));
-}
-
-function SignUpForm(props) {
-  var _useState7 = (0, _react.useState)(''),
-      _useState8 = _slicedToArray(_useState7, 2),
-      firstname = _useState8[0],
-      setFirstName = _useState8[1];
-
-  var _useState9 = (0, _react.useState)(''),
-      _useState10 = _slicedToArray(_useState9, 2),
-      lastname = _useState10[0],
-      setLastName = _useState10[1];
-
-  var _useState11 = (0, _react.useState)(''),
-      _useState12 = _slicedToArray(_useState11, 2),
-      username = _useState12[0],
-      setUserName = _useState12[1];
-
-  var _useState13 = (0, _react.useState)(''),
-      _useState14 = _slicedToArray(_useState13, 2),
-      email = _useState14[0],
-      setEmail = _useState14[1];
-
-  var _useState15 = (0, _react.useState)(''),
-      _useState16 = _slicedToArray(_useState15, 2),
-      password = _useState16[0],
-      setPassword = _useState16[1];
-
-  var submitForm = function submitForm(e) {
-    e.preventDefault();
-    props.submitForm({
-      firstname: firstname,
-      lastname: lastname,
-      username: username,
-      email: email,
-      password: password
-    });
-  };
-
-  return _react.default.createElement("div", null, _react.default.createElement("form", null, _react.default.createElement("div", {
-    className: "form-row"
-  }, _react.default.createElement("div", {
-    className: "form-group col-md-6"
-  }, _react.default.createElement("label", null, "First Name"), _react.default.createElement("input", {
-    type: "text",
-    className: "form-control",
-    id: "firstname",
-    onChange: function onChange(e) {
-      return setFirstName(e.target.value);
-    }
-  })), _react.default.createElement("div", {
-    className: "form-group col-md-6"
-  }, _react.default.createElement("label", null, "Last Name"), _react.default.createElement("input", {
-    type: "text",
-    className: "form-control",
-    id: "lastname",
-    onChange: function onChange(e) {
-      return setLastName(e.target.value);
-    }
-  }))), _react.default.createElement("div", {
-    className: "form-group"
-  }, _react.default.createElement("label", null, "Email"), _react.default.createElement("input", {
-    type: "text",
-    className: "form-control",
-    id: "email",
-    onChange: function onChange(e) {
-      return setEmail(e.target.value);
-    }
-  })), _react.default.createElement("div", {
-    className: "form-row"
-  }, _react.default.createElement("div", {
-    className: "form-group col-md-6"
-  }, _react.default.createElement("label", null, "Username"), _react.default.createElement("input", {
-    type: "text",
-    className: "form-control",
-    id: "username",
-    onChange: function onChange(e) {
-      return setUserName(e.target.value);
-    }
-  })), _react.default.createElement("div", {
-    className: "form-group col-md-6"
-  }, _react.default.createElement("label", null, "Password"), _react.default.createElement("input", {
-    type: "password",
-    className: "form-control",
-    id: "password",
-    onChange: function onChange(e) {
-      return setPassword(e.target.value);
-    }
-  }))), _react.default.createElement("button", {
-    type: "submit",
-    className: "btn btn-primary",
-    onClick: submitForm
-  }, "Sign Up")));
+    path: "/signup",
+    component: _signup.default
+  }), _react.default.createElement(_reactRouterDom.Route, {
+    path: "/signin",
+    component: _signin.default
+  }))));
 }
 
 var _default = WebApp;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./home":"pages/home.js","./mynotes":"pages/mynotes.js","./favorites":"pages/favorites.js","./notes":"pages/notes.js","../img/logo.svg":"img/logo.svg"}],"client.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./home":"pages/home.js","./mynotes":"pages/mynotes.js","./favorites":"pages/favorites.js","./notes":"pages/notes.js","./signup":"pages/signup.js","./signin":"pages/signin.js","../img/logo.svg":"img/logo.svg"}],"client.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59730,7 +59920,11 @@ var client = new _client.ApolloClient({
 });
 var _default = client;
 exports.default = _default;
-},{"@apollo/client":"../node_modules/@apollo/client/index.js"}],"App.js":[function(require,module,exports) {
+},{"@apollo/client":"../node_modules/@apollo/client/index.js"}],"img/notesimage2.jpg":[function(require,module,exports) {
+module.exports = "/notesimage2.7c8a4658.jpg";
+},{}],"img/notesimage3.jpg":[function(require,module,exports) {
+module.exports = "/notesimage3.157aaef0.jpg";
+},{}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -59743,16 +59937,77 @@ var _client = require("@apollo/client");
 
 var _client2 = _interopRequireDefault(require("./client"));
 
+var _notesimage = _interopRequireDefault(require("./img/notesimage2.jpg"));
+
+var _notesimage2 = _interopRequireDefault(require("./img/notesimage3.jpg"));
+
+var _logo = _interopRequireDefault(require("./img/logo.svg"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App() {
   return _react.default.createElement(_client.ApolloProvider, {
     client: _client2.default
-  }, _react.default.createElement(_index.default, null));
+  }, _react.default.createElement(_index.default, null), _react.default.createElement(Carousel, null));
+}
+
+function Carousel() {
+  return _react.default.createElement("div", null, _react.default.createElement("h2", {
+    className: "ui center aligned icon header"
+  }, _react.default.createElement("img", {
+    src: _logo.default
+  }), "Notely"), _react.default.createElement("div", {
+    id: "carouselExampleIndicators",
+    className: "carousel slide",
+    "data-ride": "carousel"
+  }, _react.default.createElement("ol", {
+    className: "carousel-indicators"
+  }, _react.default.createElement("li", {
+    "data-target": "#carouselExampleIndicators",
+    "data-slide-to": "0",
+    className: "active"
+  }), _react.default.createElement("li", {
+    "data-target": "#carouselExampleIndicators",
+    "data-slide-to": "1"
+  })), _react.default.createElement("div", {
+    className: "carousel-inner"
+  }, _react.default.createElement("div", {
+    className: "carousel-item active"
+  }, _react.default.createElement("img", {
+    src: _notesimage.default,
+    className: "d-block w-100",
+    alt: "..."
+  })), _react.default.createElement("div", {
+    className: "carousel-item"
+  }, _react.default.createElement("img", {
+    src: _notesimage2.default,
+    className: "d-block w-100",
+    alt: "..."
+  }))), _react.default.createElement("a", {
+    className: "carousel-control-prev",
+    href: "#carouselExampleIndicators",
+    role: "button",
+    "data-slide": "prev"
+  }, _react.default.createElement("span", {
+    className: "carousel-control-prev-icon",
+    "aria-hidden": "true"
+  }), _react.default.createElement("span", {
+    className: "sr-only"
+  }, "Previous")), _react.default.createElement("a", {
+    className: "carousel-control-next",
+    href: "#carouselExampleIndicators",
+    role: "button",
+    "data-slide": "next"
+  }, _react.default.createElement("span", {
+    className: "carousel-control-next-icon",
+    "aria-hidden": "true"
+  }), _react.default.createElement("span", {
+    className: "sr-only"
+  }, "Next"))));
 }
 
 _reactDom.default.render(_react.default.createElement(App, null), document.getElementById('root'));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./pages/index":"pages/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","./client":"client.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./pages/index":"pages/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","./client":"client.js","./img/notesimage2.jpg":"img/notesimage2.jpg","./img/notesimage3.jpg":"img/notesimage3.jpg","./img/logo.svg":"img/logo.svg"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -59780,7 +60035,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54734" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56870" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
