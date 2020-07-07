@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react'
 import styled from 'styled-components';
 import {useMutation,useApolloClient,gql} from '@apollo/client';
+import {SIGNUP_USER} from '../gql/mutation';
 
 
 
@@ -15,12 +16,6 @@ const Form = styled.form`
   max-width: 500px;
   padding: 1em;
   margin: 0 auto;
-`
-
-const SIGNUP_USER = gql`
-mutation signUp($firstname:String!,$lastname:String!,$email:String!,$username:String!,$password:String!){
-    signUp(firstname:$firstname,lastname:$lastname,email:$email,username:$username,password:$password) 
-}
 `
 
 function SignUpForm (props){

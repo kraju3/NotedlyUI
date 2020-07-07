@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import styled from 'styled-components';
 import {useMutation, useApolloClient,gql} from '@apollo/client';
+import {SIGNIN_USER} from '../gql/mutation';
+
 
 
 const Wrapper = styled.div`
@@ -14,11 +16,6 @@ const Form = styled.form`
   max-width: 500px;
   padding: 1em;
   margin: 0 auto;
-`
-const SIGNIN_USER = gql`
-mutation signIn($username:String!,$email:String,$password:String!){
-    signIn(username:$username,email:$email,password:$password) 
-}
 `
 
 

@@ -2,12 +2,8 @@ import {useApolloClient,gql, useQuery} from '@apollo/client'
 import React from 'react'
 import {Link,withRouter} from 'react-router-dom';
 import "../css/webapp.css";
+import {IS_LOGGED_IN} from '../gql/query';
 
-const IS_LOGGED_IN = gql`
-query getLoggedIn {
-        isLoggedIn
-}
-`
 
 function LoginState(props){
     const {data,client} = useQuery(IS_LOGGED_IN);
@@ -19,7 +15,7 @@ function LoginState(props){
          {data.isLoggedIn ?(
         <div className="right menu">
             <div className="item navigation">
-            <button class="ui primary button" onClick = {()=>{
+            <button className="ui primary button" onClick = {()=>{
                 localStorage.removeItem('token');
                 client.resetStore();
                 client.writeQuery({query:IS_LOGGED_IN,data:{

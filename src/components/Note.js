@@ -18,9 +18,17 @@ const Note = ({note})=>{
                 </div>
                 <ReactMarkdown source={note.content} />
                 <div className="meta">
-                  <a className="like">
+                  {/* <a className="like">
                     <i className="like icon"></i> {note.favoriteCount} Likes
-                  </a>
+                  </a> */}
+                  <div className="ui labeled button" tabIndex="0">
+                    <div className="ui button">
+                      <i className="heart icon"></i> Like
+                    </div>
+                    <a className="ui basic label">
+                      2,048
+                    </a>
+                  </div>
                 </div>
               </div>{' '}
               <br></br>

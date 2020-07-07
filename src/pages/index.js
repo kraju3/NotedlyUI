@@ -7,7 +7,8 @@ import {
     Redirect
 } from "react-router-dom";
 
-import {useQuery,gql} from '@apollo/client'
+import {useQuery} from '@apollo/client'
+import {IS_LOGGED_IN} from '../gql/query'
 
 import Carousel from './Carousel';
 import Home from './home'
@@ -17,6 +18,7 @@ import NotePage from './notes';
 import SignUpForm from './signup';
 import SignInForm from './signin';
 import LoginState from './LoginState';
+import newNote from './newNote'
 
 
 import "../css/webapp.css";
@@ -41,13 +43,8 @@ background-color:white;
 padding: 0px 0px 0px 0px;
 box-sizing:content-box;
 
-`
+`;
 
-const IS_LOGGED_IN = gql`
-query getLoggedIn {
-        isLoggedIn
-}
-`
 
 
 function WebApp(props){
@@ -76,6 +73,11 @@ function WebApp(props){
                     </Link>
                     <a className= "navigation" href="/favorites">Favorites</a>
                     </div>
+                    <div className = "item navigation">
+                    <Link to="/favorites">
+                    </Link>
+                    <a className= "navigation" href="/new">Create</a>
+                    </div>
                     <LoginState/>
                 </div>
 
@@ -86,9 +88,9 @@ function WebApp(props){
                     <Route path ="/note/:id" component ={NotePage}/>
                     <Route path ="/signup" component ={SignUpForm}/>
                     <Route path ="/signin" component ={SignInForm}/>
+                    {data.isLoggedIn===true?<Route path="/new" component={newNote}/>:<Redirect to={{pathname:"/signin"}}/>}
                     {data.isLoggedIn===true?<Route path="/mynotes"component={Notes}/>:<Redirect to={{pathname:"/signin"}}/>}
                     {data.isLoggedIn===true?<Route path="/favorites" component ={Favorites}/>:<Redirect to={{pathname:"/signin"}}/>}
-                    
                 </Switch>
             </div>
 
