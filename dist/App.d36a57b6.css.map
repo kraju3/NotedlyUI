@@ -1,0 +1,1 @@
+{"version":3,"sources":["css/webapp.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"App.d36a57b6.css","sourceRoot":"../src","sourcesContent":[".navigation {\n    color:black;\n    font-weight:bold;\n\n}\n\n.image {\n    width: 100%;\n    height: 25%;\n}"]}

@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react'
 import styled from 'styled-components';
-import {useMutation, useApolloClient,gql} from '@apollo/client';
+import {useMutation,useApolloClient,gql} from '@apollo/client';
+
 
 
 const Wrapper = styled.div`
@@ -24,6 +25,7 @@ mutation signUp($firstname:String!,$lastname:String!,$email:String!,$username:St
 
 function SignUpForm (props){
    
+    const client = useApolloClient()
     const [firstname,setFirstName] = useState('');
     const [lastname,setLastName] = useState('');
     const [username,setUserName] = useState('');
@@ -32,8 +34,17 @@ function SignUpForm (props){
 
     const [signUp,{loading,error}] = useMutation(SIGNUP_USER,{
         onCompleted:data=>{
-            localStorage.setItem('token',data.signUp)
-            props.history.push('/home')
+            localStorage.setItem('token',data.signUp);
+            client.writeQuery({
+              query:gql`
+                query getLoggedIn {
+                  isLoggedIn
+                }
+              `,data:{
+                isLoggedIn:true
+              }
+            })
+            props.history.push('/')
         }
     })
 
@@ -65,6 +76,9 @@ function SignUpForm (props){
             </p>
         </div>)}
     <Form onSubmit={submitForm}>
+        <h2 className="ui center aligned icon header">
+            Register
+        </h2>
         <div className="form-row">
           <div className="form-group col-md-6">
             <label htmlFor="firstname">First Name</label>

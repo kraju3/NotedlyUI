@@ -24,6 +24,7 @@ mutation signIn($username:String!,$email:String,$password:String!){
 
 
 function SignInForm(props){
+    const client = useApolloClient()
     const[username,setUserName]=useState('')
     const[email,setEmail]=useState('')
     const[password,setPassword]=useState('')
@@ -31,6 +32,15 @@ function SignInForm(props){
     const [signIn,{loading,error}] = useMutation(SIGNIN_USER,{
         onCompleted:data=>{
             localStorage.setItem('token',data.signIn)
+            client.writeQuery({
+                query:gql`
+                  query getLoggedIn {
+                    isLoggedIn
+                  }
+                `,data:{
+                  isLoggedIn:true
+                }
+              })
             props.history.push('/home')
         }
     })
@@ -47,18 +57,21 @@ function SignInForm(props){
     return(
         <Wrapper>
             <Form onSubmit={submitForm}>
+            <h2 className="ui center aligned icon header">
+                Login
+            </h2>
             <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input type="text" className="form-control" id="email" name="email" onChange={e=>setEmail(e.target.value)}/>
+                <input type="text" className="form-control" id="email1" name="email" onChange={e=>setEmail(e.target.value)}/>
             </div>
             <div className="form-row">
             <div className="form-group col-md-6">
                 <label htmlFor="username">Username</label>
-                <input type="text" className="form-control" id="username" name="username" onChange={e=>setUserName(e.target.value)}/>
+                <input type="text" className="form-control" id="username1" name="username" onChange={e=>setUserName(e.target.value)}/>
             </div>
             <div className="form-group col-md-6">
                 <label htmlFor="password">Password</label>
-                <input type="password" className="form-control" id="password" name="password" onChange={e=>setPassword(e.target.value)}/>
+                <input type="password" className="form-control" id="password1" name="password" onChange={e=>setPassword(e.target.value)}/>
             </div>
             </div>
             <button type="submit" className="btn btn-primary">Sign In</button>

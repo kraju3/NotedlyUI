@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "3.0.0-rc.6",
+    "@apollo/react-hooks": "^3.1.5",
     "@types/react": "^16.9.17",
     "apollo-link-context": "1.0.20",
     "bootstrap": "^4.5.0",

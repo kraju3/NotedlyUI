@@ -6,7 +6,7 @@ import Client from './client'
 
 
 
-function App (){
+function App (props){
 
     return (
         <ApolloProvider client = {Client}>
