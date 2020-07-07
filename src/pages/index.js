@@ -7,7 +7,7 @@ import {
     Redirect
 } from "react-router-dom";
 
-import {useQuery} from '@apollo/client'
+import {useQuery,useApolloClient} from '@apollo/client'
 import {IS_LOGGED_IN} from '../gql/query'
 
 import Carousel from './Carousel';
@@ -48,7 +48,6 @@ box-sizing:content-box;
 
 
 function WebApp(props){
-  const {loading,error,data} = useQuery(IS_LOGGED_IN)
     return (
         <Router>
             <div>
@@ -88,9 +87,9 @@ function WebApp(props){
                     <Route path ="/note/:id" component ={NotePage}/>
                     <Route path ="/signup" component ={SignUpForm}/>
                     <Route path ="/signin" component ={SignInForm}/>
-                    {data.isLoggedIn===true?<Route path="/new" component={newNote}/>:<Redirect to={{pathname:"/signin"}}/>}
-                    {data.isLoggedIn===true?<Route path="/mynotes"component={Notes}/>:<Redirect to={{pathname:"/signin"}}/>}
-                    {data.isLoggedIn===true?<Route path="/favorites" component ={Favorites}/>:<Redirect to={{pathname:"/signin"}}/>}
+                    <PrivateRoute path="/new" component={newNote}/>
+                    <PrivateRoute path="/mynotes"component={Notes}/>
+                    <PrivateRoute path="/favorites" component ={Favorites}/>
                 </Switch>
             </div>
 
@@ -102,7 +101,23 @@ function WebApp(props){
 
 
 
+const PrivateRoute = ({component: Component, ...rest}) => {
 
+    const client = useApolloClient()
+    const data = client.readQuery({
+        query:IS_LOGGED_IN
+    });
+    return (
+
+        // Show the component only when the user is logged in
+        // Otherwise, redirect the user to /signin page
+        <Route {...rest} render={props => (
+            data.isLoggedIn===true ?
+                <Component {...props} />
+            : <Redirect to={{pathname:"/signin"}}/>
+        )} />
+    );
+};
 
 
 export default WebApp;

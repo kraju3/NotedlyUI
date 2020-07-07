@@ -6,13 +6,16 @@ import {IS_LOGGED_IN} from '../gql/query';
 
 
 function LoginState(props){
-    const {data,client} = useQuery(IS_LOGGED_IN);
+    const client = useApolloClient()
+    const data = client.readQuery({
+        query:IS_LOGGED_IN
+    });
     console.log(data)
 
     return (
         
     <div className="right menu">
-         {data.isLoggedIn ?(
+         {data.isLoggedIn===true||data===undefined ?(
         <div className="right menu">
             <div className="item navigation">
             <button className="ui primary button" onClick = {()=>{

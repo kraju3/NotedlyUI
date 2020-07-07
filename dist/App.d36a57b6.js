@@ -47965,9 +47965,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.IS_LOGGED_IN = exports.NOTE_QUERY = exports.GET_NOTES = void 0;
+exports.GET_FAVORITES = exports.GET_MY_NOTES = exports.IS_LOGGED_IN = exports.NOTE_QUERY = exports.GET_NOTES = void 0;
 
 var _client = require("@apollo/client");
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\nquery me {\n  me{\n    id\n    username\n    favorites {\n      id\n      createdAt\n      content\n      favoriteCount\n      author {\n        username\n        id\n        avatar\n      }\n    }\n  }\n}\n"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n  query me {\n    me{\n      id\n      username\n      notes {\n        id\n        createdAt\n        content\n        favoriteCount\n        author {\n          username\n          id\n          avatar\n        }\n      }\n    }\n  }\n\n"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
 
 function _templateObject3() {
   var data = _taggedTemplateLiteral(["\n    query note($id: String!) {\n        note(id:$id){\n            id\n            createdAt\n            content\n            favoriteCount\n            author {\n                username\n                id\n                avatar\n            }\n        }\n    }\n"]);
@@ -48007,6 +48027,10 @@ var GET_NOTES = (0, _client.gql)(_templateObject2());
 exports.GET_NOTES = GET_NOTES;
 var NOTE_QUERY = (0, _client.gql)(_templateObject3());
 exports.NOTE_QUERY = NOTE_QUERY;
+var GET_MY_NOTES = (0, _client.gql)(_templateObject4());
+exports.GET_MY_NOTES = GET_MY_NOTES;
+var GET_FAVORITES = (0, _client.gql)(_templateObject5());
+exports.GET_FAVORITES = GET_FAVORITES;
 },{"@apollo/client":"../node_modules/@apollo/client/index.js"}],"../node_modules/shallowequal/index.js":[function(require,module,exports) {
 //
 
@@ -59853,7 +59877,7 @@ var Note = function Note(_ref) {
     className: "heart icon"
   }), " Like"), _react.default.createElement("a", {
     className: "ui basic label"
-  }, "2,048")))), ' ', _react.default.createElement("br", null));
+  }, note.favoriteCount)))), ' ', _react.default.createElement("br", null));
 };
 
 var _default = Note;
@@ -59995,6 +60019,14 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _client = require("@apollo/client");
+
+var _query = require("../gql/query");
+
+var _NoteFeed = _interopRequireDefault(require("../components/NoteFeed"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -60003,12 +60035,41 @@ var Notes = function Notes() {
   (0, _react.useEffect)(function () {
     document.title = "My Notes - Notedly";
   });
-  return _react.default.createElement("div", null, _react.default.createElement("h1", null, "These are your notes"));
+
+  var _useQuery = (0, _client.useQuery)(_query.GET_MY_NOTES),
+      data = _useQuery.data,
+      loading = _useQuery.loading,
+      error = _useQuery.error;
+
+  if (loading) return _react.default.createElement("div", {
+    className: "ui icon message"
+  }, _react.default.createElement("i", {
+    className: "notched circle loading icon"
+  }), _react.default.createElement("div", {
+    className: "content"
+  }, _react.default.createElement("div", {
+    className: "header"
+  }, "Just one second"), _react.default.createElement("p", null, "We're fetching that content for you.")));
+  if (error) return _react.default.createElement("div", {
+    className: "ui negative message"
+  }, _react.default.createElement("i", {
+    className: "close icon"
+  }), _react.default.createElement("div", {
+    className: "header"
+  }, "Error loading the document"), _react.default.createElement("p", null, "fetch error"));
+
+  if (data.me.notes.length !== 0) {
+    return _react.default.createElement(_NoteFeed.default, {
+      notes: data.me.notes
+    });
+  } else {
+    return _react.default.createElement("h2", null, "No notes yet");
+  }
 };
 
 var _default = Notes;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"pages/favorites.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","../gql/query":"gql/query.js","../components/NoteFeed":"components/NoteFeed.js"}],"pages/favorites.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60018,6 +60079,14 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _client = require("@apollo/client");
+
+var _query = require("../gql/query");
+
+var _NoteFeed = _interopRequireDefault(require("../components/NoteFeed"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -60026,12 +60095,41 @@ var Favorites = function Favorites() {
   (0, _react.useEffect)(function () {
     document.title = 'Favorites - Notedly';
   });
-  return _react.default.createElement("div", null, _react.default.createElement("h1", null, "Favorites"));
+
+  var _useQuery = (0, _client.useQuery)(_query.GET_FAVORITES),
+      data = _useQuery.data,
+      loading = _useQuery.loading,
+      error = _useQuery.error;
+
+  if (loading) return _react.default.createElement("div", {
+    className: "ui icon message"
+  }, _react.default.createElement("i", {
+    className: "notched circle loading icon"
+  }), _react.default.createElement("div", {
+    className: "content"
+  }, _react.default.createElement("div", {
+    className: "header"
+  }, "Just one second"), _react.default.createElement("p", null, "We're fetching that content for you.")));
+  if (error) return _react.default.createElement("div", {
+    className: "ui negative message"
+  }, _react.default.createElement("i", {
+    className: "close icon"
+  }), _react.default.createElement("div", {
+    className: "header"
+  }, "Error loading the document"), _react.default.createElement("p", null, "fetch error"));
+
+  if (data.me.favorites.length !== 0) {
+    return _react.default.createElement(_NoteFeed.default, {
+      notes: data.me.favorites
+    });
+  } else {
+    return _react.default.createElement("h2", null, "No Favorites yet");
+  }
 };
 
 var _default = Favorites;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"pages/notes.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","../gql/query":"gql/query.js","../components/NoteFeed":"components/NoteFeed.js"}],"pages/notes.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60091,14 +60189,14 @@ var _query = require("../gql/query");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function LoginState(props) {
-  var _useQuery = (0, _client.useQuery)(_query.IS_LOGGED_IN),
-      data = _useQuery.data,
-      client = _useQuery.client;
-
+  var client = (0, _client.useApolloClient)();
+  var data = client.readQuery({
+    query: _query.IS_LOGGED_IN
+  });
   console.log(data);
   return _react.default.createElement("div", {
     className: "right menu"
-  }, data.isLoggedIn ? _react.default.createElement("div", {
+  }, data.isLoggedIn === true || data === undefined ? _react.default.createElement("div", {
     className: "right menu"
   }, _react.default.createElement("div", {
     className: "item navigation"
@@ -60337,11 +60435,15 @@ var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 var _logo = _interopRequireDefault(require("../img/logo.svg"));
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 var Button = _styledComponents.default.button.withConfig({
   displayName: "pages__Button",
@@ -60354,11 +60456,6 @@ var Logo = _styledComponents.default.img.withConfig({
 })(["width:30%;height:30%;background-color:white;padding:0px 0px 0px 0px;box-sizing:content-box;"]);
 
 function WebApp(props) {
-  var _useQuery = (0, _client.useQuery)(_query.IS_LOGGED_IN),
-      loading = _useQuery.loading,
-      error = _useQuery.error,
-      data = _useQuery.data;
-
   return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", null, _react.default.createElement("div", {
     className: "ui secondary pointing menu"
   }, _react.default.createElement("div", {
@@ -60411,29 +60508,39 @@ function WebApp(props) {
   }), _react.default.createElement(_reactRouterDom.Route, {
     path: "/signin",
     component: _signin.default
-  }), data.isLoggedIn === true ? _react.default.createElement(_reactRouterDom.Route, {
+  }), _react.default.createElement(PrivateRoute, {
     path: "/new",
     component: _newNote.default
-  }) : _react.default.createElement(_reactRouterDom.Redirect, {
-    to: {
-      pathname: "/signin"
-    }
-  }), data.isLoggedIn === true ? _react.default.createElement(_reactRouterDom.Route, {
+  }), _react.default.createElement(PrivateRoute, {
     path: "/mynotes",
     component: _mynotes.default
-  }) : _react.default.createElement(_reactRouterDom.Redirect, {
-    to: {
-      pathname: "/signin"
-    }
-  }), data.isLoggedIn === true ? _react.default.createElement(_reactRouterDom.Route, {
+  }), _react.default.createElement(PrivateRoute, {
     path: "/favorites",
     component: _favorites.default
-  }) : _react.default.createElement(_reactRouterDom.Redirect, {
-    to: {
-      pathname: "/signin"
-    }
   }))));
 }
+
+var PrivateRoute = function PrivateRoute(_ref) {
+  var Component = _ref.component,
+      rest = _objectWithoutProperties(_ref, ["component"]);
+
+  var client = (0, _client.useApolloClient)();
+  var data = client.readQuery({
+    query: _query.IS_LOGGED_IN
+  });
+  return (// Show the component only when the user is logged in
+    // Otherwise, redirect the user to /signin page
+    _react.default.createElement(_reactRouterDom.Route, _extends({}, rest, {
+      render: function render(props) {
+        return data.isLoggedIn === true ? _react.default.createElement(Component, props) : _react.default.createElement(_reactRouterDom.Redirect, {
+          to: {
+            pathname: "/signin"
+          }
+        });
+      }
+    }))
+  );
+};
 
 var _default = WebApp;
 exports.default = _default;
@@ -61991,7 +62098,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64771" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56798" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

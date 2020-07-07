@@ -26,7 +26,7 @@ const Note = ({note})=>{
                       <i className="heart icon"></i> Like
                     </div>
                     <a className="ui basic label">
-                      2,048
+                      {note.favoriteCount}
                     </a>
                   </div>
                 </div>
