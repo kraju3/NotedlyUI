@@ -47965,9 +47965,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GET_FAVORITES = exports.GET_MY_NOTES = exports.IS_LOGGED_IN = exports.NOTE_QUERY = exports.GET_NOTES = void 0;
+exports.GET_ME = exports.GET_FAVORITES = exports.GET_MY_NOTES = exports.IS_LOGGED_IN = exports.NOTE_QUERY = exports.GET_NOTES = void 0;
 
 var _client = require("@apollo/client");
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral(["\n  query me {\n    me {\n      id\n      favorites {\n        id\n      }\n    }\n  }\n"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
 
 function _templateObject5() {
   var data = _taggedTemplateLiteral(["\nquery me {\n  me{\n    id\n    username\n    favorites {\n      id\n      createdAt\n      content\n      favoriteCount\n      author {\n        username\n        id\n        avatar\n      }\n    }\n  }\n}\n"]);
@@ -48031,6 +48041,8 @@ var GET_MY_NOTES = (0, _client.gql)(_templateObject4());
 exports.GET_MY_NOTES = GET_MY_NOTES;
 var GET_FAVORITES = (0, _client.gql)(_templateObject5());
 exports.GET_FAVORITES = GET_FAVORITES;
+var GET_ME = (0, _client.gql)(_templateObject6());
+exports.GET_ME = GET_ME;
 },{"@apollo/client":"../node_modules/@apollo/client/index.js"}],"../node_modules/shallowequal/index.js":[function(require,module,exports) {
 //
 
@@ -50782,9 +50794,29 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SIGNUP_USER = exports.SIGNIN_USER = exports.NEW_NOTE = void 0;
+exports.UPDATE_NOTE = exports.SIGNUP_USER = exports.SIGNIN_USER = exports.NEW_NOTE = void 0;
 
 var _client = require("@apollo/client");
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["\n    mutation toggleFavorite($id:ID!){\n        toggleFavorite(id:$id) {\n            id\n            createdAt\n            content\n            favoriteCount\n            author {\n                username\n                id\n                avatar\n            }\n        }\n    }\n"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\nmutation UpdateNote($id: ID!,$content: String!){\n    UpdateNote(id: $id,content: $content){\n        id\n        content\n        createdAt\n        favoriteCount\n        favoritedBy {\n            id\n            username\n        }\n        author {\n            username\n            id\n        }\n\n    }\n}\n"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
 
 function _templateObject3() {
   var data = _taggedTemplateLiteral(["\n    mutation CreateNote($content: String!){\n        CreateNote(content:$content) {\n            id\n            content\n            createdAt\n            favoriteCount\n            favoritedBy {\n                id\n                username\n            }\n            author {\n                username\n                id\n            }\n        }\n    }\n\n"]);
@@ -50824,6 +50856,9 @@ var SIGNUP_USER = (0, _client.gql)(_templateObject2());
 exports.SIGNUP_USER = SIGNUP_USER;
 var NEW_NOTE = (0, _client.gql)(_templateObject3());
 exports.NEW_NOTE = NEW_NOTE;
+var UPDATE_NOTE = (0, _client.gql)(_templateObject4());
+exports.UPDATE_NOTE = UPDATE_NOTE;
+var TOGGLE_FAVORITES = (0, _client.gql)(_templateObject5());
 },{"@apollo/client":"../node_modules/@apollo/client/index.js"}],"pages/signup.js":[function(require,module,exports) {
 "use strict";
 
@@ -59834,7 +59869,7 @@ ReactMarkdown.types = allTypes;
 ReactMarkdown.renderers = defaultRenderers;
 ReactMarkdown.uriTransformer = uriTransformer;
 module.exports = ReactMarkdown;
-},{"xtend":"../node_modules/xtend/immutable.js","unified":"../node_modules/unified/index.js","remark-parse":"../node_modules/remark-parse/index.js","prop-types":"../node_modules/prop-types/index.js","mdast-add-list-metadata":"../node_modules/mdast-add-list-metadata/index.js","./plugins/naive-html":"../node_modules/react-markdown/lib/plugins/naive-html.js","./plugins/disallow-node":"../node_modules/react-markdown/lib/plugins/disallow-node.js","./ast-to-react":"../node_modules/react-markdown/lib/ast-to-react.js","./wrap-table-rows":"../node_modules/react-markdown/lib/wrap-table-rows.js","./get-definitions":"../node_modules/react-markdown/lib/get-definitions.js","./uri-transformer":"../node_modules/react-markdown/lib/uri-transformer.js","./renderers":"../node_modules/react-markdown/lib/renderers.js","./symbols":"../node_modules/react-markdown/lib/symbols.js"}],"components/Note.js":[function(require,module,exports) {
+},{"xtend":"../node_modules/xtend/immutable.js","unified":"../node_modules/unified/index.js","remark-parse":"../node_modules/remark-parse/index.js","prop-types":"../node_modules/prop-types/index.js","mdast-add-list-metadata":"../node_modules/mdast-add-list-metadata/index.js","./plugins/naive-html":"../node_modules/react-markdown/lib/plugins/naive-html.js","./plugins/disallow-node":"../node_modules/react-markdown/lib/plugins/disallow-node.js","./ast-to-react":"../node_modules/react-markdown/lib/ast-to-react.js","./wrap-table-rows":"../node_modules/react-markdown/lib/wrap-table-rows.js","./get-definitions":"../node_modules/react-markdown/lib/get-definitions.js","./uri-transformer":"../node_modules/react-markdown/lib/uri-transformer.js","./renderers":"../node_modules/react-markdown/lib/renderers.js","./symbols":"../node_modules/react-markdown/lib/symbols.js"}],"components/NoteUser.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59844,12 +59879,102 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _reactMarkdown = _interopRequireDefault(require("react-markdown"));
+var _client = require("@apollo/client");
+
+var _reactRouterDom = require("react-router-dom");
+
+var _query = require("../gql/query");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var NoteUser = function NoteUser(props) {
+  var _useQuery = (0, _client.useQuery)(_query.GET_ME),
+      data = _useQuery.data,
+      loading = _useQuery.loading,
+      error = _useQuery.error;
+
+  if (loading) return _react.default.createElement("div", {
+    className: "ui icon message"
+  }, _react.default.createElement("i", {
+    className: "notched circle loading icon"
+  }), _react.default.createElement("div", {
+    className: "content"
+  }, _react.default.createElement("div", {
+    className: "header"
+  }, "Just one second"), _react.default.createElement("p", null, "We're fetching that content for you.")));
+  if (error) return _react.default.createElement("div", {
+    className: "ui negative message"
+  }, _react.default.createElement("i", {
+    className: "close icon"
+  }), _react.default.createElement("div", {
+    className: "header"
+  }, "Error loading the document"), _react.default.createElement("p", null, "fetch error"));
+  return _react.default.createElement(_react.default.Fragment, null, data.me.id === props.note.author.id && _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_reactRouterDom.Link, {
+    to: "/edit/".concat(props.note.id)
+  }, _react.default.createElement("button", {
+    className: "ui secondary button"
+  }, "Edit"))));
+};
+
+var _default = NoteUser;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../gql/query":"gql/query.js"}],"components/Note.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactMarkdown = _interopRequireDefault(require("react-markdown"));
+
+var _client = require("@apollo/client");
+
+var _NoteUser = _interopRequireDefault(require("./NoteUser"));
+
+var _query = require("../gql/query");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 var Note = function Note(_ref) {
   var note = _ref.note;
+
+  var _useState = (0, _react.useState)(note.favoriteCount),
+      _useState2 = _slicedToArray(_useState, 2),
+      favorite = _useState2[0],
+      setFavorite = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      liked_disliked = _useState4[0],
+      setLike = _useState4[1];
+
+  var _useQuery = (0, _client.useQuery)(_query.IS_LOGGED_IN),
+      data = _useQuery.data,
+      loading = _useQuery.loading,
+      error = _useQuery.error;
+
+  var _useQuery2 = (0, _client.useQuery)(_query.GET_ME),
+      userData = _useQuery2.data;
+
   return _react.default.createElement("div", {
     className: "event"
   }, _react.default.createElement("div", {
@@ -59872,17 +59997,30 @@ var Note = function Note(_ref) {
     className: "ui labeled button",
     tabIndex: "0"
   }, _react.default.createElement("div", {
-    className: "ui button"
+    className: "ui button",
+    onClick: function onClick(e) {
+      e.preventDefault();
+
+      if (liked_disliked) {
+        setFavorite(favorite - 1);
+        setLike(false);
+      } else {
+        setFavorite(favorite + 1);
+        setLike(true);
+      }
+    }
   }, _react.default.createElement("i", {
     className: "heart icon"
   }), " Like"), _react.default.createElement("a", {
     className: "ui basic label"
-  }, note.favoriteCount)))), ' ', _react.default.createElement("br", null));
+  }, favorite)), data.isLoggedIn === true && _react.default.createElement(_NoteUser.default, {
+    note: note
+  }))), ' ', _react.default.createElement("br", null));
 };
 
 var _default = Note;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-markdown":"../node_modules/react-markdown/lib/react-markdown.js"}],"components/NoteFeed.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-markdown":"../node_modules/react-markdown/lib/react-markdown.js","@apollo/client":"../node_modules/@apollo/client/index.js","./NoteUser":"components/NoteUser.js","../gql/query":"gql/query.js"}],"components/NoteFeed.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60363,6 +60501,8 @@ var NewNote = function NewNote(props) {
   var _useMutation = (0, _client.useMutation)(_mutation.NEW_NOTE, {
     refetchQueries: [{
       query: _query.GET_NOTES
+    }, {
+      query: _query.GET_MY_NOTES
     }],
     onCompleted: function onCompleted(data) {
       props.history.push("note/".concat(data.CreateNote.id));
@@ -60395,7 +60535,107 @@ var NewNote = function NewNote(props) {
 
 var _default = NewNote;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","../components/NoteText":"components/NoteText.js","../gql/mutation":"gql/mutation.js","../gql/query":"gql/query.js"}],"pages/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","../components/NoteText":"components/NoteText.js","../gql/mutation":"gql/mutation.js","../gql/query":"gql/query.js"}],"pages/edit.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _client = require("@apollo/client");
+
+var _NoteText = _interopRequireDefault(require("../components/NoteText"));
+
+var _query = require("../gql/query");
+
+var _mutation = require("../gql/mutation");
+
+var _reactRouterDom = require("react-router-dom");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var EditPage = function EditPage(props) {
+  var id = props.match.params.id;
+
+  var _useQuery = (0, _client.useQuery)(_query.GET_ME),
+      userData = _useQuery.data;
+
+  var _useQuery2 = (0, _client.useQuery)(_query.NOTE_QUERY, {
+    variables: {
+      id: id
+    }
+  }),
+      loading = _useQuery2.loading,
+      error = _useQuery2.error,
+      data = _useQuery2.data;
+
+  var _useMutation = (0, _client.useMutation)(_mutation.UPDATE_NOTE, {
+    variables: {
+      id: id
+    },
+    onCompleted: function onCompleted() {
+      props.history.push("/note/".concat(id));
+    }
+  }),
+      _useMutation2 = _slicedToArray(_useMutation, 1),
+      updateNote = _useMutation2[0];
+
+  console.log(userData);
+  if (loading) return _react.default.createElement("div", {
+    className: "ui icon message"
+  }, _react.default.createElement("i", {
+    className: "notched circle loading icon"
+  }), _react.default.createElement("div", {
+    className: "content"
+  }, _react.default.createElement("div", {
+    className: "header"
+  }, "Just one second"), _react.default.createElement("p", null, "We're fetching that content for you.")));
+  if (error) return _react.default.createElement("div", {
+    className: "ui negative message"
+  }, _react.default.createElement("i", {
+    className: "close icon"
+  }), _react.default.createElement("div", {
+    className: "header"
+  }, "Error loading the document"), _react.default.createElement("p", null, "fetch error"));
+
+  if (userData.me.id !== data.note.author.id) {
+    return _react.default.createElement("div", {
+      className: "ui negative message"
+    }, _react.default.createElement("i", {
+      className: "close icon"
+    }), _react.default.createElement("div", {
+      className: "header"
+    }, "Error"), _react.default.createElement("p", null, "You do not have permission to edit this"), _react.default.createElement(_reactRouterDom.Redirect, {
+      to: {
+        pathname: "/home"
+      }
+    }));
+  }
+
+  return _react.default.createElement(_NoteText.default, {
+    content: data.note.content,
+    action: updateNote
+  });
+};
+
+var _default = EditPage;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","@apollo/client":"../node_modules/@apollo/client/index.js","../components/NoteText":"components/NoteText.js","../gql/query":"gql/query.js","../gql/mutation":"gql/mutation.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"pages/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60428,6 +60668,8 @@ var _signin = _interopRequireDefault(require("./signin"));
 var _LoginState = _interopRequireDefault(require("./LoginState"));
 
 var _newNote = _interopRequireDefault(require("./newNote"));
+
+var _edit = _interopRequireDefault(require("./edit"));
 
 require("../css/webapp.css");
 
@@ -60517,6 +60759,9 @@ function WebApp(props) {
   }), _react.default.createElement(PrivateRoute, {
     path: "/favorites",
     component: _favorites.default
+  }), _react.default.createElement(PrivateRoute, {
+    path: "/edit/:id",
+    component: _edit.default
   }))));
 }
 
@@ -60544,7 +60789,7 @@ var PrivateRoute = function PrivateRoute(_ref) {
 
 var _default = WebApp;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@apollo/client":"../node_modules/@apollo/client/index.js","../gql/query":"gql/query.js","./Carousel":"pages/Carousel.js","./home":"pages/home.js","./mynotes":"pages/mynotes.js","./favorites":"pages/favorites.js","./notes":"pages/notes.js","./signup":"pages/signup.js","./signin":"pages/signin.js","./LoginState":"pages/LoginState.js","./newNote":"pages/newNote.js","../css/webapp.css":"css/webapp.css","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","../img/logo.svg":"img/logo.svg"}],"../node_modules/zen-observable-ts/lib/bundle.esm.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@apollo/client":"../node_modules/@apollo/client/index.js","../gql/query":"gql/query.js","./Carousel":"pages/Carousel.js","./home":"pages/home.js","./mynotes":"pages/mynotes.js","./favorites":"pages/favorites.js","./notes":"pages/notes.js","./signup":"pages/signup.js","./signin":"pages/signin.js","./LoginState":"pages/LoginState.js","./newNote":"pages/newNote.js","./edit":"pages/edit.js","../css/webapp.css":"css/webapp.css","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","../img/logo.svg":"img/logo.svg"}],"../node_modules/zen-observable-ts/lib/bundle.esm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62098,7 +62343,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56798" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63023" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

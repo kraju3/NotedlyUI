@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import {useQuery,useApolloClient} from '@apollo/client'
-import {IS_LOGGED_IN} from '../gql/query'
+import {IS_LOGGED_IN, GET_ME} from '../gql/query'
 
 import Carousel from './Carousel';
 import Home from './home'
@@ -18,7 +18,8 @@ import NotePage from './notes';
 import SignUpForm from './signup';
 import SignInForm from './signin';
 import LoginState from './LoginState';
-import newNote from './newNote'
+import newNote from './newNote';
+import EditPage from './edit'
 
 
 import "../css/webapp.css";
@@ -89,7 +90,8 @@ function WebApp(props){
                     <Route path ="/signin" component ={SignInForm}/>
                     <PrivateRoute path="/new" component={newNote}/>
                     <PrivateRoute path="/mynotes"component={Notes}/>
-                    <PrivateRoute path="/favorites" component ={Favorites}/>
+                    <PrivateRoute path="/favorites" component={Favorites}/>
+                    <PrivateRoute path="/edit/:id" component={EditPage}/>
                 </Switch>
             </div>
 

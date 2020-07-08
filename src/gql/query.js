@@ -84,4 +84,15 @@ query me {
 }
 `
 
-export {GET_NOTES,NOTE_QUERY,IS_LOGGED_IN,GET_MY_NOTES,GET_FAVORITES}
+const GET_ME = gql`
+  query me {
+    me {
+      id
+      favorites {
+        id
+      }
+    }
+  }
+`
+
+export {GET_NOTES,NOTE_QUERY,IS_LOGGED_IN,GET_MY_NOTES,GET_FAVORITES,GET_ME}

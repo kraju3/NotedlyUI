@@ -32,4 +32,40 @@ const NEW_NOTE = gql`
 
 `
 
-export {NEW_NOTE,SIGNIN_USER,SIGNUP_USER}
+const UPDATE_NOTE = gql`
+mutation UpdateNote($id: ID!,$content: String!){
+    UpdateNote(id: $id,content: $content){
+        id
+        content
+        createdAt
+        favoriteCount
+        favoritedBy {
+            id
+            username
+        }
+        author {
+            username
+            id
+        }
+
+    }
+}
+`
+
+const TOGGLE_FAVORITES = gql`
+    mutation toggleFavorite($id:ID!){
+        toggleFavorite(id:$id) {
+            id
+            createdAt
+            content
+            favoriteCount
+            author {
+                username
+                id
+                avatar
+            }
+        }
+    }
+`
+
+export {NEW_NOTE,SIGNIN_USER,SIGNUP_USER,UPDATE_NOTE}
