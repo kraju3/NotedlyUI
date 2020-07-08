@@ -52,6 +52,16 @@ mutation UpdateNote($id: ID!,$content: String!){
 }
 `
 
+const DELETE_NOTE = gql`
+    mutation DeleteNote($id: ID!){
+        DeleteNote(id: $id)
+    }
+
+`
+
+
+
+
 const TOGGLE_FAVORITES = gql`
     mutation toggleFavorite($id:ID!){
         toggleFavorite(id:$id) {
@@ -68,4 +78,4 @@ const TOGGLE_FAVORITES = gql`
     }
 `
 
-export {NEW_NOTE,SIGNIN_USER,SIGNUP_USER,UPDATE_NOTE}
+export {NEW_NOTE,SIGNIN_USER,SIGNUP_USER,UPDATE_NOTE,TOGGLE_FAVORITES,DELETE_NOTE}

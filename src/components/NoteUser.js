@@ -3,6 +3,9 @@ import {useQuery,gql} from '@apollo/client';
 import {Link} from 'react-router-dom';
 import { GET_ME } from '../gql/query';
 
+import FavoriteNote from './FavoriteNote';
+import DeleteNote from './DeleteNote'
+
 const NoteUser = (props)=>{
     const {data,loading,error} = useQuery(GET_ME);
 
@@ -30,14 +33,18 @@ if (error) return (<div className="ui negative message">
 
     return (
     <React.Fragment>
+        <FavoriteNote
+        me={data.me} 
+        note={props.note}/>
         {data.me.id ===props.note.author.id &&(
         <React.Fragment>
 
             <Link to={`/edit/${props.note.id}`}>
                 <button className="ui secondary button">
-                    Edit
+                <i class="edit icon"></i>Edit
                 </button>
             </Link>
+                <DeleteNote noteId={props.note.id}/>
         </React.Fragment>
           
         ) }
