@@ -62420,7 +62420,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var uri = "http://localhost:4000/api";
+var uri = "development" === "production" ? "https://notedlygraphql.herokuapp.com/api" : "http://localhost:4000/api";
 var httpLink = (0, _client.createHttpLink)({
   uri: uri
 });
@@ -62505,7 +62505,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54795" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60407" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

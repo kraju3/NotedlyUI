@@ -1,7 +1,7 @@
 import{ApolloClient,ApolloProvider,InMemoryCache,createHttpLink,gql}from '@apollo/client'
 import {setContext} from 'apollo-link-context';
 
-const uri = process.env.API_URI;
+const uri = process.env.NODE_ENV==="production"?process.env.PROD_URI:process.env.API_URI;
 const httpLink = createHttpLink({uri})
 const cache = new InMemoryCache();
 
